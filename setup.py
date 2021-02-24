@@ -3,7 +3,8 @@
 """The setup script."""
 
 from setuptools import setup, find_packages
-
+from Cython.Build import cythonize
+import numpy
 with open("README.rst") as readme_file:
     readme = readme_file.read()
 
@@ -34,6 +35,8 @@ setup(
     ],
     description="A python package for fast fitting of Negative Binomial data",
     install_requires=requirements,
+    ext_modules=cythonize(["pyfastnbfit/pyfastnbfit_cy.pyx", "pyfastnbfit/pyfastnbfit_py_cy.py"], compiler_directives={'language_level' : "3"}),
+    include_dirs=[numpy.get_include()],
     license="BSD license",
     long_description=readme + "\n\n" + history,
     include_package_data=True,
